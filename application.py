@@ -58,7 +58,8 @@ def login():
 def chat():
 
     if not current_user.is_authenticated:
-        return "Please login before accessing chat"
+        flash('Please login.', 'danger')
+        return redirect(url_for('login'))
 
     return "Chat with me"
 
@@ -66,7 +67,8 @@ def chat():
 def logout():
 
     logout_user()
-    return "Logged out using flask-login"
+    flash('You have logged out successfully', 'success')
+    return redirect(url_for('login'))
 
 if __name__ == "__main__":
     app.run(debug=True)
