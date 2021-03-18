@@ -4,7 +4,7 @@ from models import *
 
 # Configure app
 app = Flask(__name__)
-app.secret_key = 'Doducquy22.'
+app.secret_key = 'secret'
 
 # Configure database
 app.config['SQLALCHEMY_DATABASE_URI']='postgresql://ywbnoztyucofwo:f770a5fb7b4ebc3df8f2b59d682c2f87f409142b36bd8248b36a07c046b03808@ec2-54-164-22-242.compute-1.amazonaws.com:5432/d1mp446fh6pe2b'
@@ -20,7 +20,9 @@ def index():
         username = reg_form.username.data
         password = reg_form.password.data
 
-        user = User(username=username, password=password)
+        hashed_pswd = pbkdf2_sha256.hash(password)
+
+        user = User(username=username, password=hashed_pswd)
         db.session.add(user)
         db.session.commit()
 
