@@ -1,4 +1,3 @@
-import os
 from flask import Flask, render_template, redirect, url_for, flash
 from wtform_fields import *
 from models import *
@@ -8,7 +7,7 @@ from time import localtime, strftime
 
 # Configure app
 app = Flask(__name__)
-app.secret_key = 'SECRET_KEY'
+app.secret_key = 'secret'
 
 # Configure database
 app.config['SQLALCHEMY_DATABASE_URI']='postgresql://ywbnoztyucofwo:f770a5fb7b4ebc3df8f2b59d682c2f87f409142b36bd8248b36a07c046b03808@ec2-54-164-22-242.compute-1.amazonaws.com:5432/d1mp446fh6pe2b'
@@ -46,6 +45,7 @@ def index():
         return redirect(url_for('login'))
 
     return render_template("index.html", form=reg_form)
+
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
@@ -93,6 +93,7 @@ def leave(data):
 
     leave_room(data['room'])
     send({'msg': data['username'] + " has left the " + data['room'] + " room."}, room=data['room'])
+
 
 if __name__ == "__main__":
     socketio.run(app, debug=True)

@@ -1,22 +1,19 @@
 {% from 'form_helper.html' import displayField %}
-{% extends "prelogin-layout.html" %}
+{% extends 'prelogin-layout.html' %}
 
 {% block title %}Login {% endblock %}
 
 {% block content %}
-    <h2>Login now!</h2>
-    <p>Enter you username/password to start QChat</p>
+  <h2>Login now!</h2>
+  <p>Enter you username/password to start QChat</p>
+  <form action="{{ url_for('login')}}" method="POST">
+    {{ displayField(form.username, 'Username', autocomplete='off', autofocus=true) }}
+    {{ displayField(form.password, 'Password')}}
 
-    <form action="{{ url_for('login') }}", method="POST">
-        {{ displayField(form.username, 'Username', autocomplete="off", autofocus=true) }}
-        {{ displayField(form.password, 'Password') }}
-        <div class="form-group">
-            <input type="submit" value="Login" class="btn btn-warning">
-        </div>
-        {{ form.csrf_token }}
-    </form>
+    <div>
+      {{ form.submit_button }}
+    </div>
 
-    <hr>
-
-    <p>Have not registered? <a href={{url_for('index')}}>Register here</a>.</p>
+    {{ form.csrf_token }}
+  </form>
 {% endblock %}
