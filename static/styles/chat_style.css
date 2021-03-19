@@ -148,5 +148,5 @@ input[type=text]:focus{
 }
 
 #get-username {
-    display: none;
+    display: none !important;
 }
