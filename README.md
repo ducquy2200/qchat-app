@@ -1,5 +1,5 @@
 # QCHAT APP
-QChat is a group chat app with multiple sockets, developed mainly with <b>Python's Flask</b> and backend modules as well as pure <b>JavaScript</b> and a responsive <b>Bootstrap</b> design on the frontend (Edit: Bootstrap links were corrupted (or maybe I am just bad) which causes the message to disappear to no message animation. Therefore, the temporary solution to the problem is to display messages in plain text and will fix later on)
+QChat is a group chat app with multiple sockets, developed mainly with <b>Python's Flask</b> and backend modules as well as pure <b>JavaScript</b> and a responsive <b>Bootstrap</b> design on the frontend (Edit: Bootstrap links were corrupted (or maybe I am just bad) which causes the message to disappear and no message animation. Therefore, the temporary solution to the problem is to display messages in plain text and will fix later on)
 
 
 ## Link to heroku live app
