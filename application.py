@@ -30,31 +30,29 @@ def index():
 
     reg_form = RegistrationForm()
 
-    # Update database if validation success
+    # Updated database if validation successful
     if reg_form.validate_on_submit():
         username = reg_form.username.data
         password = reg_form.password.data
 
-        # Hash password
         hashed_pswd = pbkdf2_sha256.hash(password)
 
-        # Add username & hashed password to DB
-        user = User(username=username, hashed_pswd=hashed_pswd)
+        user = User(username=username, password=hashed_pswd)
         db.session.add(user)
         db.session.commit()
 
-        flash('Registered successfully. Please login.', 'success')
+        flash('Register successfully. Please login.', 'success')
+
         return redirect(url_for('login'))
 
     return render_template("index.html", form=reg_form)
-
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
 
     login_form = LoginForm()
 
-    # Allow login if validation success
+    # Allow login if validation successful
     if login_form.validate_on_submit():
         user_object = User.query.filter_by(username=login_form.username.data).first()
         login_user(user_object)
@@ -62,64 +60,39 @@ def login():
 
     return render_template("login.html", form=login_form)
 
+@app.route("/chat", methods=['GET', 'POST'])
+def chat():
+
+    # if not current_user.is_authenticated:
+    #     flash('Please login.', 'danger')
+    #     return redirect(url_for('login'))
+
+    return render_template('chat.html', username=current_user.username, rooms=ROOMS)
 
 @app.route("/logout", methods=['GET'])
 def logout():
 
-    # Logout user
     logout_user()
     flash('You have logged out successfully', 'success')
     return redirect(url_for('login'))
 
+@socketio.on('message')
+def message(data):
 
-@app.route("/chat", methods=['GET', 'POST'])
-def chat():
-
-    if not current_user.is_authenticated:
-        flash('Please login', 'danger')
-        return redirect(url_for('login'))
-
-    return render_template("chat.html", username=current_user.username, rooms=ROOMS)
-
-
-@app.errorhandler(404)
-def page_not_found(e):
-    # note that we set the 404 status explicitly
-    return render_template('404.html'), 404
-
-
-@socketio.on('incoming-msg')
-def on_message(data):
-    """Broadcast messages"""
-
-    msg = data["msg"]
-    username = data["username"]
-    room = data["room"]
-    # Set timestamp
-    time_stamp = time.strftime('%b-%d %I:%M%p', time.localtime())
-    send({"username": username, "msg": msg, "time_stamp": time_stamp}, room=room)
-
+    print(f"\n\n{data}\n\n")
+    send({'msg': data['msg'], 'username': data['username'], 'time_stamp': strftime('%b-%d %I: %M%p', localtime())}, room=data['room'])
 
 @socketio.on('join')
-def on_join(data):
-    """User joins a room"""
+def join(data):
 
-    username = data["username"]
-    room = data["room"]
-    join_room(room)
-
-    # Broadcast that new user has joined
-    send({"msg": username + " has joined the " + room + " room."}, room=room)
-
+    join_room(data['room'])
+    send({'msg': data['username'] + " has joined the " + data['room'] + " room."}, room=data['room'])
 
 @socketio.on('leave')
-def on_leave(data):
-    """User leaves a room"""
+def leave(data):
 
-    username = data['username']
-    room = data['room']
-    leave_room(room)
-    send({"msg": username + " has left the room"}, room=room)
+    leave_room(data['room'])
+    send({'msg': data['username'] + " has left the " + data['room'] + " room."}, room=data['room'])
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    socketio.run(app, debug=True)
