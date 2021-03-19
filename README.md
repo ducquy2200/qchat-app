@@ -73,17 +73,17 @@ http://127.0.0.1:5000/
 
 You will be directed to a registration page first.
 
-![Registration Page](/visuals/sign-up.PNG)
+![Registration Page](/visuals/sign-up.png)
 
 
 After completing the registration you will be required to login with your credentials.
 
-![Login Page](/visuals/login.PNG)
+![Login Page](/visuals/login.png)
 
 
 Upon logging in, you will be able to use different chat rooms to talk with the online users.
 
-![Chat Room](/visuals/chat.PNG)
+![Chat Room](/visuals/chat.png)
 
 
 ## Future Improvements
