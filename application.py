@@ -95,4 +95,4 @@ def leave(data):
     send({'msg': data['username'] + " has left the " + data['room'] + " room."}, room=data['room'])
 
 if __name__ == "__main__":
-    app.run()
+    socketio.run(app, debug=True)
