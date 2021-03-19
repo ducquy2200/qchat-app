@@ -8,10 +8,10 @@ from time import localtime, strftime
 
 # Configure app
 app = Flask(__name__)
-app.secret_key = os.environ.get('SECRET KEY')
+app.secret_key = 'SECRET_KEY'
 
 # Configure database
-app.config['SQLALCHEMY_DATABASE_URI']=os.environ.get('DATABASE_URL')
+app.config['SQLALCHEMY_DATABASE_URI']='postgresql://ywbnoztyucofwo:f770a5fb7b4ebc3df8f2b59d682c2f87f409142b36bd8248b36a07c046b03808@ec2-54-164-22-242.compute-1.amazonaws.com:5432/d1mp446fh6pe2b'
 db = SQLAlchemy(app)
 # Initialize Flask-SocketIO
 socketio = SocketIO(app)
